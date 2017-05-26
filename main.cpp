@@ -1,8 +1,5 @@
 #include <allegro.h>
 #include "global.h"
-#include "player.h"
-#include "mijuego.h"
-
 const int maxdisp=5;
 const int ANCHO = 500;
 const int ALTO = 450;
@@ -52,7 +49,7 @@ int dy;
     inicia_allegro();
     BITMAP *puerco = load_bitmap("puerquito.bmp",NULL);
     BITMAP *nube = load_bitmap("fondo.bmp",NULL);
-    BITMAP *bala = load_bitmap("shoot.bmp",NULL);
+    BITMAP *bala = load_bitmap("shoot1.bmp",NULL);
     BITMAP *buffer = create_bitmap (500,450);
 
     int i = 450, dsw=0, contt=0;
@@ -65,6 +62,11 @@ int dy;
     if(key[KEY_RIGHT]) {puer.dir = 2; puer.y += 1;}
     else if (key[KEY_LEFT]) {puer.dir = 0; puer.y -= 1;}
     else {puer.dir = 1;}
+
+    if ( puer.x < 0 ) puer.x = 0;
+      if ( puer.x > ANCHO ) puer.x = ANCHO;
+      if ( puer.y < 0 ) puer.y = 0;
+      if ( puer.y > ALTO )  puer.y = ALTO;
 
     if(key[KEY_SPACE] && dsw ==0) {
         if(puer.ndisparos < maxdisp){
