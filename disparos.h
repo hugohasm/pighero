@@ -23,7 +23,7 @@ void eliminar(struct Balas disparos[], int& n_disparos, int cont);
 void elimina_bala(int& n_disparos, const int max_disparos,struct Balas disparos[],
                   const int ANCHO, const int ALTO);
 
-bool elimina_bala_objeto(struct Personaje& N,struct Personaje& E, struct Balas B[],int con);
+void elimina_bala_objeto(struct Personaje& N,struct Personaje& E, struct Balas B[]);
 
 
 

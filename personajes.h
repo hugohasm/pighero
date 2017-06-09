@@ -14,12 +14,10 @@ struct Personaje{
     int dir_bala;
     int tipo;
     int vida;
-    int dir;
 
 
     BITMAP *img;
     BITMAP *bala;
-    BITMAP *Exp;
 
 
     void inicia(char* ruta_img, char* ruta_bala,int _ancho_b, int _alto_b,
@@ -34,6 +32,5 @@ struct Personaje{
 
 void acomoda_enemigos(struct Personaje E[]);
 void pintar_enemigo(struct Personaje  E[], BITMAP *buffer);
-void explosion1(struct Personaje E,BITMAP* buffer);
-void explosion2(struct Personaje N, BITMAP* buffer, BITMAP* fondo);
+
 #endif // DISPAROS_H_INCLUDED

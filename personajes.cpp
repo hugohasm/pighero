@@ -3,7 +3,7 @@
 #define ANCHO 600
 #define ALTO  600
 #include <allegro.h>
-#include "menu.h"
+
 void Personaje::disparo(struct Balas disparos[], BITMAP *buffer){
         if(tipo)
         crear_bala(n_disp, max_disp, disparos, x, y, dir_bala);
@@ -44,9 +44,6 @@ alto_p = _alto_p;
 dir_bala = _dir_bala;
 tipo = _tipo;
 vida = _vida;
-
-Exp=load_bitmap("Recursos/Explosion.bmp",NULL);
-
 }
 
 void Personaje::pinta(BITMAP* buffer){
@@ -70,28 +67,23 @@ void Personaje::mueve(){
 void acomoda_enemigos(struct Personaje E[]){
     int indice = -1;
     int cont = 0;
-    for(int i = 0; i < 8 ; i++){
-        for(int j = 0; j < 20 ;j++){
+    for(int i = 0; i < 5 ; i++){
+        for(int j = 0; j < 24 ;j++){
             indice++;
             cont++;
-         if(cont <=20)
+         if(cont <=24)
             E[indice].inicia("Recursos/Enemigos/bomba.bmp","Recursos/Enemigos/cuchillo.bmp",
-                             24, 24, 24, 24, 34+j*24, i*24, 15,1,1);
-         if(cont >20){
-
-            E[indice].inicia("Recursos/Enemigos/piedra.bmp","Recursos/Enemigos/cuchillo.bmp",
-                             24, 24, 24, 24, 58+j*24, i*24, 15,1,3);
-
-         }if(cont > 40){
+                             24, 24, 24, 24, 10+j*24, i*24, 15,1,1);
+         if(cont > 24){
 
             E[indice].inicia("Recursos/Enemigos/cuchillo.bmp","Recursos/Enemigos/cuchillo.bmp",
-                             24, 24, 24, 24, 58+j*24, i*24, 15,1,2);
+                             24, 24, 24, 24, 10+j*24, i*24, 15,0,2);
 
          }
 
 
         }
-        if(cont==60)
+        if(cont==48)
         cont=0;
     }
 }
@@ -99,8 +91,8 @@ void acomoda_enemigos(struct Personaje E[]){
 
 void pintar_enemigo(struct Personaje  E[], BITMAP *buffer){
 int indice = -1;
-    for(int i = 0; i < 7 ; i++){
-        for(int j = 0; j < 20 ;j++){
+    for(int i = 0; i < 5 ; i++){
+        for(int j = 0; j < 24 ;j++){
             indice++;
             if(E[indice].vida >0)
         E[indice].pinta(buffer);
@@ -110,31 +102,3 @@ int indice = -1;
 }
 
 
-void explosion1(struct Personaje E,BITMAP* buffer)
-{       BITMAP* parche = create_bitmap(30,20);
-        clear_to_color(parche,0x000000);
-        blit(parche,buffer,0,0,E.x,E.y,25,20);
-        masked_blit(E.Exp,buffer,0,0,E.x,E.y,24,24);
-
-
-}
-
-
-void explosion2(struct Personaje N, BITMAP* buffer, BITMAP* fondo){
-
-BITMAP* parche = create_bitmap(32,32);
-clear_to_color(parche,0x000000);
-for(int j= 0; j<6 ; j++){
-    for(int i = 1; i<=2;i++){
-
-        blit(parche,buffer,0,0, N.x,N.y,32,32);
-        masked_blit(N.Exp,buffer,0,0,N.x,N.y,24,24);
-        //Imprimir_fondo(fondo,buffer);
-        blit(buffer,screen,0,0,0,0,ANCHO,ALTO);
-        rest(50);
-    }
-
-}
-
-
-}

@@ -38,12 +38,10 @@ void Menup (BITMAP* p){
 
 
 void Imprimir_fondo(BITMAP* fondo,BITMAP* buffer){
-
-  masked_blit(fondo,buffer,0,0,0,0,800,800);
+  int i=400;
+  masked_blit(fondo,screen,0,0,0,0,600,600);
 
 
 
 
 }
-
-

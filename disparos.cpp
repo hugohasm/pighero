@@ -77,27 +77,21 @@ Balas Btemp;
 
 
 
-bool elimina_bala_objeto(struct Personaje& N, struct Personaje& E, struct Balas B[],int con){
-
+void elimina_bala_objeto(struct Personaje& N, struct Personaje& E, struct Balas B[]){
 if(N.n_disp>0 && N.n_disp < N.max_disp){
     for(int cont = 1; cont <= N.n_disp; cont++){
         if(colision(E.x, E.y, E.ancho_p, E.alto_p ,
             B[cont].x, B[cont].y, N.b_ancho, N.b_alto) && E.vida >0)
                 {
 
-                if(con== 20) N.vida = 2+N.vida;
-                else if (con==80) N.vida = 3+N.vida;
                 eliminar(B,N.n_disp,cont);
                 E.vida--;
-                con++;
-                return true;
 
                 }
 
 
 
     }
-    return false;
 }
 
 }
