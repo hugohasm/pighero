@@ -1,119 +1,139 @@
 #include <allegro.h>
-#include "global.h"
-const int maxdisp=5;
-const int ANCHO = 500;
-const int ALTO = 450;
+#include "inicia.h"
+#include "disparos.h"
+#define ANCHO 600
+#define ALTO  600
+#include <stdlib.h>
+#include <time.h>
+#include "personajes.h"
+#include "Menu.h"
 
 
-void inicia_allegro()
-{
 
-	allegro_init();
-	install_keyboard();
 
-	set_color_depth(32);
-	set_gfx_mode(GFX_AUTODETECT_WINDOWED, ANCHO, ALTO, 0, 0);
+bool limites(struct Personaje E[], int& dir){
 
-    LOCK_VARIABLE(contador_tiempo_juego);
-    LOCK_FUNCTION(inc_contador_tiempo_juego);
+    for(int i; i<140;i++){
+        if(E[i].x > 100|| E[i].x < 100)
+        {
+            dir =-1*dir;
+            return true;
+        }
 
-    // Iniciamos el limitador de FPS
-    install_int_ex(inc_contador_tiempo_juego, BPS_TO_TIMER( FRAME_RATE ));
+    }
+
+        return false;
+
 }
 
-struct Puerco {
+void mover_enemigos(struct Personaje E[],int& dir){
 
-int x;
-int y;
-int dir;
-int ndisparos;
-
-} puer ={350,300,3,0};
-
-struct Balas {
-int x;
-int y;
-int dx;
-int dy;
-
-}disparos[maxdisp];
-
-
- void pintar_puerco (BITMAP *puerco, BITMAP *buffer, struct Puerco puer){
-    masked_blit(puerco,buffer,40*puer.dir,0,puer.x,puer.y,32,32);
+    if(limites(E,dir)){
+        for(int j = 0;j < 140; j++) E[j].y +=dir;
     }
 
 
-    int main () {
 
-    inicia_allegro();
-    BITMAP *puerco = load_bitmap("puerquito.bmp",NULL);
-    BITMAP *nube = load_bitmap("fondo.bmp",NULL);
-    BITMAP *bala = load_bitmap("shoot1.bmp",NULL);
-    BITMAP *buffer = create_bitmap (500,450);
+}
 
-    int i = 450, dsw=0, contt=0;
-    while (!key[KEY_ESC]){
-        blit (nube,buffer,0,--i,0,0,500,450); if (i==0) i=450;
-        pintar_puerco(puerco,buffer,puer);
 
-    if(key[KEY_UP]) {puer.dir = 1; puer.y -= 1;}
-    else if (key[KEY_DOWN]) {puer.dir = 1; puer.y += 2;}
-    if(key[KEY_RIGHT]) {puer.dir = 2; puer.y += 1;}
-    else if (key[KEY_LEFT]) {puer.dir = 0; puer.y -= 1;}
-    else {puer.dir = 1;}
+int main(){
+    srand(time(NULL));
 
-    if ( puer.x < 0 ) puer.x = 0;
-      if ( puer.x > ANCHO ) puer.x = ANCHO;
-      if ( puer.y < 0 ) puer.y = 0;
-      if ( puer.y > ALTO )  puer.y = ALTO;
+    inicia_allegro(ANCHO,ALTO); // fuciones del include inicia.h
+	inicia_audio(70,70);        //
 
-    if(key[KEY_SPACE] && dsw ==0) {
-        if(puer.ndisparos < maxdisp){
+    BITMAP *buffer = create_bitmap(ANCHO, ALTO);
+    BITMAP *portada = load_bitmap("Recursos/portada.bmp",NULL);
+    BITMAP *fondo = load_bitmap("Recursos/fondo.bmp",NULL);
+    BITMAP *Over = load_bitmap("Recursos/over.bmp",NULL);
+    BITMAP *Win = load_bitmap("Recursos/Win.bmp",NULL);
+    MIDI *musifondo = load_midi("Recursos/Musica/fondo.mid");
+    Menup(portada);
 
-            puer.ndisparos++;
-            disparos[puer.ndisparos].x=puer.x +14 ; //el numero es para que salga centrado del bitmap
-            disparos[puer.ndisparos].y = puer.y;
-            disparos[puer.ndisparos].dx=0; //el numero es para que salga centrado del bitmap
-            disparos[puer.ndisparos].dy = -3;
-            dsw=1;
+    Personaje puerco;
+    Personaje E[200];
+    puerco.inicia("Recursos/Puerco/puerquito.bmp","Recursos/Disparos/shoot1.bmp",16,16,32,32,
+                  ANCHO/2,ALTO-150,-8,0,3);
+
+    puerco.max_disp = 5;
+    acomoda_enemigos(E);
+    Balas disparos[puerco.max_disp];
+    Balas dis_e[E[0].max_disp];
+
+    int azar = rand()%140;
+    int dir = -1;
+    int vel_juego =10;
+    int con = 0, con2=0;
+
+    play_midi(musifondo,1);
+////////////////////////////////////////////
+    while(!key[KEY_ESC]){
+       clear_to_color(buffer,0x000000);
+       Imprimir_fondo(fondo,buffer);
+        if(puerco.vida==0){
+            Imprimir_fondo(Over,buffer);
+
         }
+        for (int i = 0; i<140;i++)
+            if(elimina_bala_objeto(puerco,E[i],disparos, con)){
+                explosion1(E[i],buffer);
+                con++;
+            }
+
+        puerco.pinta(buffer);
+        puerco.mueve();
+
+            if(con>=20){
+            puerco.img = load_bitmap("Recursos/Puerco/puerquitodp.bmp",NULL);
+
+                        }
+
+            if(con >= 40){
+            puerco.img = load_bitmap("Recursos/Puerco/puerquitotp.bmp",NULL);
+            if ( puerco.x < -35 ) puerco.x= ANCHO-35;
+            if ( puerco.x > ANCHO-35) puerco.x = 0;
+
+
+            }
+
+            if(con >= 80){
+
+            puerco.img = load_bitmap("Recursos/Puerco/superpuerquito.bmp",NULL);
+            puerco.max_disp = 10;
+            }
+
+
+            if (con>=140)
+                Imprimir_fondo(Win,buffer);
+
+            if(E[0].temporizador())
+            mover_enemigos(E,dir);
+
+
+        if(key[KEY_SPACE] && puerco.temporizador())
+        crear_bala(puerco.n_disp,puerco.max_disp,disparos,puerco.x,puerco.y,puerco.dir_bala);
+        puerco.disparo(disparos,buffer);
+
+        pintar_enemigo(E,buffer);
+
+    if(E[azar].n_disp == 0) azar = rand()%140;
+    E[azar].disparo(dis_e, buffer);
+
+if(elimina_bala_objeto(E[azar],puerco,dis_e,con2))
+    explosion2(puerco,buffer,fondo);
+
+    blit(buffer,screen,0,0,0,0,ANCHO,ALTO);
+            rest(20);
+
+
+
+
+
     }
 
-    if(contt++ > 20){
 
-        dsw=0; contt=0;
-
-    }
-    if(puer.ndisparos >0){
-        for(int cont = 1;cont<=puer.ndisparos;cont++){
-            disparos[cont].x += disparos[cont].dx;
-            disparos[cont].y += disparos[cont].dy;
-            masked_blit(bala,buffer,0,0,disparos[cont].x,disparos[cont].y,40,70);
-
-            if(disparos[cont].y > ALTO || disparos[cont].y <0 ||
-               disparos[cont].x > ANCHO | disparos[cont].x <0){
-
-                    disparos[cont] = disparos[puer.ndisparos];
-                    puer.ndisparos--;
-                    if(puer.ndisparos < 0) puer.ndisparos =0;
-
-
-               }
-        }
-
-
-    }
-
-    blit(buffer,screen,0,0,0,0,500,450);
-    rest(5);
-    }
-
-    destroy_bitmap(buffer);
-    destroy_bitmap(puerco);
-    destroy_bitmap(nube);
-
-    }
-
-
+	return 0;
+}
 END_OF_MAIN();
+

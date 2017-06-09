@@ -1,0 +1,81 @@
+# depslib dependency file v1.0
+1496999663 source:c:\users\angel\desktop\pig hero\pig hero\main.cpp
+	<allegro.h>
+	"inicia.h"
+	"disparos.h"
+	<stdlib.h>
+	<time.h>
+	"personajes.h"
+	"Menu.h"
+
+1496418576 c:\users\angel\desktop\pig hero\pig hero\inicia.h
+
+1496995563 c:\users\angel\desktop\pig hero\pig hero\disparos.h
+	<allegro.h>
+	"personajes.h"
+
+1496992990 c:\users\angel\desktop\pig hero\pig hero\personajes.h
+	<allegro.h>
+
+1496997687 source:c:\users\angel\desktop\pig hero\pig hero\disparos.cpp
+	"personajes.h"
+	"disparos.h"
+	<allegro.h>
+
+1496418572 source:c:\users\angel\desktop\pig hero\pig hero\inicia.cpp
+	"inicia.h"
+	<allegro.h>
+
+1496999833 source:c:\users\angel\desktop\pig hero\pig hero\personajes.cpp
+	"disparos.h"
+	"personajes.h"
+	<allegro.h>
+	"menu.h"
+
+1496973882 c:\users\angel\desktop\pig hero\pig hero\menu.h
+	<allegro.h>
+
+1496994606 source:c:\users\angel\desktop\pig hero\pig hero\menu.cpp
+	<allegro.h>
+	"menu.h"
+
+1496997687 source:c:\users\hugo segoviano\downloads\pig hero\disparos.cpp
+	"personajes.h"
+	"disparos.h"
+	<allegro.h>
+
+1496992990 c:\users\hugo segoviano\downloads\pig hero\personajes.h
+	<allegro.h>
+
+1496995563 c:\users\hugo segoviano\downloads\pig hero\disparos.h
+	<allegro.h>
+	"personajes.h"
+
+1496418572 source:c:\users\hugo segoviano\downloads\pig hero\inicia.cpp
+	"inicia.h"
+	<allegro.h>
+
+1496418576 c:\users\hugo segoviano\downloads\pig hero\inicia.h
+
+1496999663 source:c:\users\hugo segoviano\downloads\pig hero\main.cpp
+	<allegro.h>
+	"inicia.h"
+	"disparos.h"
+	<stdlib.h>
+	<time.h>
+	"personajes.h"
+	"Menu.h"
+
+1496973882 c:\users\hugo segoviano\downloads\pig hero\menu.h
+	<allegro.h>
+
+1496994606 source:c:\users\hugo segoviano\downloads\pig hero\menu.cpp
+	<allegro.h>
+	"menu.h"
+
+1496999993 source:c:\users\hugo segoviano\downloads\pig hero\personajes.cpp
+	"disparos.h"
+	"personajes.h"
+	<allegro.h>
+	"menu.h"
+
